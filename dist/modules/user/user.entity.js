@@ -14,10 +14,14 @@ const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 const bcrypt = require("bcrypt");
 let User = class User {
-    configUser() {
+    createUser() {
         this.id = (0, uuid_1.v4)();
         this.password = bcrypt.hashSync(this.password, 10);
         this.avatar = `https://api.dicebear.com/7.x/pixel-art-neutral/svg?seed=${this.username}`;
+    }
+    emailAndUsernameToLowerCase() {
+        this.email = this.email.toLowerCase();
+        this.username = this.username.toLowerCase();
     }
 };
 exports.User = User;
@@ -46,7 +50,13 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], User.prototype, "configUser", null);
+], User.prototype, "createUser", null);
+__decorate([
+    (0, typeorm_1.BeforeInsert)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], User.prototype, "emailAndUsernameToLowerCase", null);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)('users')
 ], User);

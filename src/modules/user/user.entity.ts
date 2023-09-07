@@ -21,9 +21,15 @@ export class User {
   avatar: string;
 
   @BeforeInsert()
-  configUser(){
+  createUser(){
     this.id = uuid();
     this.password = bcrypt.hashSync(this.password, 10);
     this.avatar = `https://api.dicebear.com/7.x/pixel-art-neutral/svg?seed=${this.username}`
+  }
+
+  @BeforeInsert()
+  emailAndUsernameToLowerCase(){
+    this.email = this.email.toLowerCase();
+    this.username = this.username.toLowerCase();
   }
 }

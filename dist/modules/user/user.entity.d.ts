@@ -4,5 +4,6 @@ export declare class User {
     email: string;
     password: string;
     avatar: string;
-    configUser(): void;
+    createUser(): void;
+    emailAndUsernameToLowerCase(): void;
 }

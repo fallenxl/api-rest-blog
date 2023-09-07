@@ -21,19 +21,26 @@ let UserService = class UserService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    createUser(newUser) {
-        const user = this.userRepository.create(newUser);
-        return this.userRepository.save(user);
+    async createUser(user) {
+        const emailExists = await this.getUserbyEmail(user.email);
+        const usernameExists = await this.getUserByUsername(user.username);
+        if (emailExists) {
+            throw new common_1.HttpException('Email already exists', 400);
+        }
+        if (usernameExists) {
+            throw new common_1.HttpException('Username already exists', 400);
+        }
+        const newUser = this.userRepository.create(user);
+        return this.userRepository.save(newUser);
     }
-    async getUserById(id) {
-        const user = await this.userRepository.findOne({ where: { id } });
-        const data = {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            avatar: user.avatar,
-        };
-        return data;
+    getUserById(id) {
+        return this.userRepository.findOne({ where: { id } });
+    }
+    getUserbyEmail(email) {
+        return this.userRepository.findOne({ where: { email } });
+    }
+    getUserByUsername(username) {
+        return this.userRepository.findOne({ where: { username } });
     }
 };
 exports.UserService = UserService;
