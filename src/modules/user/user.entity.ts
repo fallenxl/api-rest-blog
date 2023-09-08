@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryColumn, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryColumn, BeforeInsert, OneToMany } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { Post } from '../post/post.entity';
 
 @Entity('users')
 export class User {
@@ -20,6 +21,7 @@ export class User {
   @Column({ default: null })
   avatar: string;
 
+
   @BeforeInsert()
   createUser(){
     this.id = uuid();
@@ -32,4 +34,8 @@ export class User {
     this.email = this.email.toLowerCase();
     this.username = this.username.toLowerCase();
   }
+
+  @OneToMany(() => Post, post => post.user)
+  posts: Post[];
+  
 }
