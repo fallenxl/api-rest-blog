@@ -31,7 +31,7 @@ export class AuthService {
     );
 
     return {
-      acces_token: token,
+      access_token: token,
     };
   }
 
@@ -45,7 +45,7 @@ export class AuthService {
       },
     );
     return {
-      acces_token: token,
+      access_token: token,
     };
   }
 

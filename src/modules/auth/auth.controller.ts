@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CredentialsDto } from './dto/credentials.dto';
 import { AuthGuard } from './guard/auth.guard';
-import { isEmail } from 'src/utils/utils';
+import { isEmail } from '../../utils/utils';
 
 @ApiTags('Auth')
 @Controller('auth')
