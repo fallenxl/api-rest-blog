@@ -67,4 +67,45 @@ describe('UserService', () => {
       'Email already exists',
     );
   });
+
+  it('should not create a user if username already exists', async () => {
+    const user: CreateUserDto = {
+      username: 'test',
+      email: 'testxd@test.com',
+      password: 'password',
+    };
+
+    service.getUserbyEmail = jest.fn().mockReturnValue(null);
+    service.getUserByUsername = jest.fn().mockReturnValue(user);
+    await expect(service.createUser(user)).rejects.toThrow(
+      'Username already exists',
+    );
+  });
+
+  it('should get a user by id', async () => {
+    const user = {
+      id: uuid(),
+      username: 'test',
+      email: 'test@test.com',
+      password: 'password',
+    };
+
+    service.getUserById = jest.fn().mockReturnValue(user);
+    const result = await service.getUserById(user.id);
+    expect(result).toBe(user);
+  });
+
+  it('should get a user by email', async () => {
+    const user = {
+      id: uuid(),
+      username: 'test',
+      email: 'test@test.com',
+      password: 'password',
+    };
+
+    service.getUserbyEmail = jest.fn().mockReturnValue(user);
+    const result = await service.getUserbyEmail(user.email);
+
+    expect(result).toBe(user);
+  });
 });
