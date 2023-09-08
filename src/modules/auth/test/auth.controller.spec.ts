@@ -67,5 +67,33 @@ describe('AuthController', () => {
 
       expect(result).toEqual({ access_token: token });
     });
+
+    it('Should throw an error if user does not exist', async () => {
+      const credentials = {
+        email: 'test@test2.com',
+        password: 'password',
+      };
+
+      userService.getUserbyEmail = jest.fn().mockResolvedValue(null);
+
+      await expect(controller.login(credentials)).rejects.toThrow(
+        'Invalid credentials',
+      );
+    });
+
+    it('Should throw an error if password is incorrect', async () => {
+      const credentials = {
+        email: 'test@test.com',
+        password: 'password2',
+      };
+
+      userService.getUserbyEmail = jest.fn().mockResolvedValue(mockUser);
+      bcrypt.compareSync = jest.fn().mockReturnValue(false);
+
+      await expect(controller.login(credentials)).rejects.toThrow(
+        'Invalid credentials',
+      );
+    });
+    
   });
 });
