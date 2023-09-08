@@ -21,7 +21,11 @@ export class Post {
   @Column({ name: 'user_id', nullable: false })
   userId: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.posts)
