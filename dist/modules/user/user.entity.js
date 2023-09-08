@@ -13,6 +13,7 @@ exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 const bcrypt = require("bcrypt");
+const post_entity_1 = require("../post/post.entity");
 let User = class User {
     createUser() {
         this.id = (0, uuid_1.v4)();
@@ -46,6 +47,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "avatar", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: "created_at", type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
+    __metadata("design:type", Date)
+], User.prototype, "createdAt", void 0);
+__decorate([
     (0, typeorm_1.BeforeInsert)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -57,6 +62,10 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], User.prototype, "emailAndUsernameToLowerCase", null);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => post_entity_1.Post, post => post.user),
+    __metadata("design:type", Array)
+], User.prototype, "posts", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)('users')
 ], User);

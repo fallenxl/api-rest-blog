@@ -1,16 +1,18 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   JoinColumn,
+  BeforeInsert,
+  PrimaryColumn,
 } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 import { User } from '../user/user.entity';
 
 @Entity()
 export class Post {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column({ length: 50, nullable: false })
   title: string;
@@ -31,4 +33,9 @@ export class Post {
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @BeforeInsert()
+  createPost() {
+    this.id = uuid();
+  }
 }
