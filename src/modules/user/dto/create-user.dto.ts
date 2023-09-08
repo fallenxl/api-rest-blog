@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateUserDto {
-  @ApiProperty()
-  username : string;
-  @ApiProperty()
+  @ApiProperty({ minLength: 3, maxLength: 20 })
+  username: string;
+  @ApiProperty({ format: 'email' })
   email: string;
-  @ApiProperty()
+  @ApiProperty({ minLength: 8 })
   password: string;
 }
