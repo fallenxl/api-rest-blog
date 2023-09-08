@@ -21,6 +21,9 @@ export class User {
   @Column({ default: null })
   avatar: string;
 
+  @Column({ name: "created_at" ,type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
 
   @BeforeInsert()
   createUser(){
